@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello, Study - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Nixie+One&family=Playpen+Sans:wght@100..400&family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="HelloStudy.css">
+</head>
+<body class="dashboard-body">
+
+<header class="dashboard-header">
+        <a href="whiteboard.html" class="nav-btn" style="text-decoration: none; color: inherit;">← L</a>
+        <h1 class="logo-text">hello, Study</h1>
+       <a href="calendar.html" class="nav-btn" style="text-decoration: none; color: inherit;">R →</a>
+     
+</header>
+
+<div class="main-grid">
+    <aside class="music-sidebar">
+        <div class="card-header">Music</div>
+        <div class="content-area">
+            <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="500" style="width:100%; border-radius:10px;" src="https://embed.music.apple.com/us/playlist/hello-study-music-playlist/pl.u-xlyNj6ktkz9l6r6"></iframe>
+        </div>
+    </aside>
+
+    <section class="center-content">
+        <div class="date-display" id="current-date">00 / 00 / 0000</div>
+        
+        <div class="photo-grid">
+            <div class="drop-zone" id="box-1"><span class="placeholder-icon">+</span></div>
+            <div class="drop-zone" id="box-2"><span class="placeholder-icon">+</span></div>
+            <div class="drop-zone" id="box-3"><span class="placeholder-icon">+</span></div>
+            <div class="drop-zone" id="box-4"><span class="placeholder-icon">+</span></div>
+            <div class="drop-zone" id="box-5"><span class="placeholder-icon">+</span></div>
+            <div class="drop-zone" id="box-6"><span class="placeholder-icon">+</span></div>
+        </div>
+
+        <div class="timer-section">
+            <div class="timer-display" id="display">25:00</div> 
+            <div class="timer-controls">
+                <span class="adjust" id="plus">+5</span> 
+                <button class="play-btn" id="start-stop">▷</button> 
+                <span class="adjust" id="minus">-5</span>
+            </div>
+        </div>
+    </section>
+
+    <aside class="right-sidebar">
+        <div class="todo-list">
+            <div class="card-header">To-do List <span class="plus" id="open-bg-modal">+</span></div>
+            <div class="content-area editable-notes" id="todo-notes" contenteditable="true">
+                <ul><li>double tap to write</li></ul>
+            </div>
+        </div>
+        
+        <div class="notifications">
+            <div class="card-header">Notifications <span class="plus" id="open-notif-modal">+</span></div>
+            <div id="notif-list-container" class="notif-content"></div>
+        </div>
+    </aside>
+</div>
+
+<div id="notif-modal" class="modal">
+    <div class="modal-content notification-modal-v2">
+        <div class="modal-header">
+            <h2 class="modal-title">notification</h2>
+            <span class="close-modal" id="close-notif-modal">&times;</span>
+        </div>
+        
+        <div class="modal-body-flex">
+            <div class="modal-inputs-column">
+                <div class="custom-date-row">
+    <select id="notif-month" class="date-arrow-btn">
+        <option value="JAN">JAN</option><option value="FEB">FEB</option>
+        <option value="MAR">MAR</option><option value="APR">APR</option>
+        <option value="MAY">MAY</option><option value="JUN">JUN</option>
+        <option value="JUL">JUL</option><option value="AUG">AUG</option>
+        <option value="SEP">SEP</option><option value="OCT">OCT</option>
+        <option value="NOV">NOV</option><option value="DEC">DEC</option>
+    </select>
+    <input type="number" id="notif-day" class="date-arrow-btn" value="19" min="1" max="31">
+    <input type="number" id="notif-year" class="date-arrow-btn" value="2026">
+</div>
+                <div class="fancy-input-group">
+                    <input type="text" id="notif-title" placeholder="The Title of the Task Here" class="italic-input">
+                    <div class="input-underline"></div>
+                    <input type="text" id="notif-desc" placeholder="Little description" class="plain-input">
+                    <div class="input-underline"></div>
+                </div>
+                <button id="confirm-notif" class="confirm-pill-btn">Confirm ✓</button>
+            </div>
+
+            <div class="modal-selectors-column">
+                <h3 class="selector-label">icon & color</h3>
+                <div class="selectors-grid-wrapper">
+                    <div class="icon-grid-v2">
+                        <span class="icon-opt-v2" data-icon="📅">📅</span>
+                        <span class="icon-opt-v2" data-icon="🖋️">🖋️</span>
+                        <span class="icon-opt-v2" data-icon="📚">📚</span>
+                        <span class="icon-opt-v2" data-icon="✈️">✈️</span>
+                        <span class="icon-opt-v2 selected-box" data-icon="🌲">🌲</span>
+                        <span class="icon-opt-v2" data-icon="❤️">❤️</span>
+                        <span class="icon-opt-v2" data-icon="🏀">🏀</span>
+                        <span class="icon-opt-v2" data-icon="🌻">🌻</span>
+                    </div>
+                    <div class="color-grid-v2">
+                        <div class="color-swatch" data-color="#dbe4e4" style="background: #dbe4e4;"></div>
+                        <div class="color-swatch" data-color="#dae5e5" style="background: #dae5e5;"></div>
+                        <div class="color-swatch" data-color="#e1ede6" style="background: #e1ede6;"></div>
+                        <div class="color-swatch" data-color="#e2eed9" style="background: #e2eed9;"></div>
+                        <div class="color-swatch" data-color="#f0e4d7" style="background: #f0e4d7;"></div>
+                        <div class="color-swatch" data-color="#c4c4c4" style="background: #c4c4c4;"></div>
+                        <div class="color-swatch" data-color="#e8c2b0" style="background: #e8c2b0;"></div>
+                        <div class="color-swatch" data-color="#f5e9e2" style="background: #f5e9e2;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bg-modal" class="modal">
+    <div class="modal-content color-selector-modal" style="width: 650px; border-radius: 40px; padding: 40px;">
+        <div class="modal-header" style="position: relative; text-align: center;">
+            <h2 style="font-family: 'Playpen Sans'; font-weight: 800; font-size: 2.8rem; margin-bottom: 20px;">website color</h2>
+            <span class="close-modal" id="close-bg-modal" style="position: absolute; top: 0; right: 0; font-size: 2.5rem; cursor: pointer;">&times;</span>
+        </div>
+        <div class="modal-body bg-selector-body" style="display: flex; gap: 30px; align-items: center;">
+            <div class="bg-options-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                <div class="bg-opt" data-bg="url('3 1.png')" style="background: #e1ede6; width: 110px; height: 110px; border-radius: 25px; cursor: pointer;"></div>
+                <div class="bg-opt" data-bg="url('3 3.png')" style="background: #f4cfbb; width: 110px; height: 110px; border-radius: 25px; cursor: pointer;"></div>
+                <div class="bg-opt" data-bg="url('3 4.png')" style="background: #c6c9ce; width: 110px; height: 110px; border-radius: 25px; cursor: pointer;"></div>
+                <div class="bg-opt" data-bg="url('3 4 (1).png')" style="background: #e8f1da; width: 110px; height: 110px; border-radius: 25px; cursor: pointer;"></div>
+            </div>
+            <div class="bg-preview-box" id="bg-preview" style="flex-grow: 1; height: 240px; border-radius: 25px; background-size: cover; background-position: center; border: 1px solid #ddd;"></div>
+        </div>
+        <button id="confirm-bg" class="confirm-btn" style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 20px; background: #acc6d1; border: none; font-family: 'Playpen Sans'; font-weight: 800; cursor: pointer;">Confirm ✓</button>
+    </div>
+</div>
+
+<script>
+    /*** 1. GLOBALS ***/
+    const notifModal = document.getElementById("notif-modal");
+    const bgModal = document.getElementById("bg-modal");
+    const todoArea = document.getElementById('todo-notes');
+    const notifContainer = document.getElementById('notif-list-container');
+    
+let selectedIcon = "🌲"; 
+let selectedColor = "#e1ede6"; 
+    let temporaryBg = "";
+
+    /*** 2. NOTIFICATION ENGINE (Cool Deletion + Saving) ***/
+  function saveNotifs() {
+    const notifData = [];
+    document.querySelectorAll('.notif-button-card').forEach(card => {
+        if(!card.classList.contains('fade-out')) {
+            notifData.push({
+                title: card.querySelector('b').innerText,
+                desc: card.querySelector('small').innerText,
+                date: card.querySelector('.notif-date-tag').innerText, // Save the date
+                icon: card.querySelector('.notif-icon-span').innerText,
+                color: card.style.backgroundColor
+            });
+        }
+    });
+    localStorage.setItem('savedNotifs', JSON.stringify(notifData));
+}
+
+function createNotifCard(title, desc, icon, color, dateStr) {
+    const div = document.createElement('div');
+    div.className = 'notif-button-card';
+    div.style.backgroundColor = color;
+    div.innerHTML = `
+        <div class="notif-inner" style="display: flex; align-items: center;">
+            <span class="notif-icon-span" style="font-size: 1.5rem; margin-right: 10px;">${icon}</span>
+            <div style="flex-grow: 1;">
+                <b style="display:block;">${title}</b>
+                <small>${desc}</small>
+            </div>
+            <div class="notif-date-tag" style="font-size: 0.7rem; opacity: 0.6; font-weight: 800; margin-left: 10px;">${dateStr}</div>
+        </div>`;
+    
+    div.onclick = () => { 
+        div.classList.add('fade-out'); 
+        setTimeout(() => { div.remove(); saveNotifs(); }, 400); 
+    };
+    notifContainer.appendChild(div);
+}
+
+document.getElementById('confirm-notif').onclick = () => {
+    const t = document.getElementById('notif-title').value;
+    const d = document.getElementById('notif-desc').value;
+    
+    // Grab the date from the new inputs
+    const month = document.getElementById('notif-month').value;
+    const day = document.getElementById('notif-day').value;
+    const year = document.getElementById('notif-year').value;
+    const dateStr = `${month} ${day}`; // e.g., "JAN 19"
+
+    if(t) {
+        createNotifCard(t, d, selectedIcon, selectedColor, dateStr);
+        saveNotifs();
+        notifModal.style.display = "none";
+        document.getElementById('notif-title').value = "";
+        document.getElementById('notif-desc').value = "";
+    }
+};
+
+    /*** 3. PHOTO BOX LOGIC (Combined Upload & Clear) ***/
+    function setupPhotoBoxes() {
+        document.querySelectorAll(".drop-zone").forEach(dz => {
+            // 1. Add/Ensure Delete Button exists
+            let delBtn = dz.querySelector('.delete-photo-btn');
+            if (!delBtn) {
+                delBtn = document.createElement("button");
+                delBtn.innerHTML = "×";
+                delBtn.className = "delete-photo-btn";
+                dz.appendChild(delBtn);
+            }
+
+            // 2. Clear Logic (The "X" button)
+            delBtn.onclick = (e) => {
+                e.stopPropagation(); // Stop upload from opening
+                const img = dz.querySelector('img');
+                if(img) {
+                    dz.classList.add('photo-fade-out');
+                    setTimeout(() => {
+                        dz.innerHTML = `<span class="placeholder-icon">+</span>`;
+                        dz.classList.remove('photo-fade-out');
+                        dz.appendChild(delBtn); // Put X back
+                        localStorage.removeItem(`img-${dz.id}`);
+                    }, 300);
+                }
+            };
+
+            // 3. Upload Logic (The Box itself)
+            dz.onclick = (e) => {
+                if (e.target.className === 'delete-photo-btn') return;
+                let input = document.createElement("input");
+                input.type = "file";
+                input.onchange = () => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(input.files[0]);
+                    reader.onload = () => {
+                        dz.innerHTML = `<img src="${reader.result}" class="drop-zone__thumb">`;
+                        dz.appendChild(delBtn); // Ensure X stays on top
+                        localStorage.setItem(`img-${dz.id}`, reader.result);
+                    };
+                };
+                input.click();
+            };
+        });
+    }
+
+    /*** 4. BACKGROUND CHANGER ***/
+/*** 4. BACKGROUND CHANGER (Image Support) ***/
+document.getElementById('open-bg-modal').onclick = () => {
+    bgModal.style.display = "flex";
+};
+
+document.getElementById('close-bg-modal').onclick = () => {
+    bgModal.style.display = "none";
+};
+
+document.querySelectorAll('.bg-opt').forEach(opt => {
+    opt.onclick = () => {
+        temporaryBg = opt.getAttribute('data-bg');
+        const preview = document.getElementById('bg-preview');
+        
+        // Update Preview
+        preview.style.backgroundImage = temporaryBg;
+        
+        // Add Selection Highlight (Blue Border)
+        document.querySelectorAll('.bg-opt').forEach(o => o.style.border = "none");
+        opt.style.border = "4px solid #5da9ff";
+    };
+});
+
+document.getElementById('confirm-bg').onclick = () => {
+    if(temporaryBg) {
+        document.body.style.backgroundImage = temporaryBg;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundAttachment = "fixed";
+        document.body.style.backgroundPosition = "center";
+        
+        localStorage.setItem('savedBg', temporaryBg);
+        bgModal.style.display = "none";
+    }
+};
+    /*** 5. INITIAL LOAD ***/
+    window.onload = () => {
+    // Load BG (Default to 3 4.png if nothing is saved)
+    const savedBg = localStorage.getItem('savedBg') || "url('3 4.png')";
+    document.body.style.backgroundImage = savedBg;
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.backgroundPosition = "center";
+    
+        // Load Photos
+        document.querySelectorAll(".drop-zone").forEach(dz => {
+            const savedImg = localStorage.getItem(`img-${dz.id}`);
+            if(savedImg) dz.innerHTML = `<img src="${savedImg}" class="drop-zone__thumb">`;
+        });
+        setupPhotoBoxes(); // Initialize buttons and clicks
+
+        // Load Notifs
+const savedNotifs = JSON.parse(localStorage.getItem('savedNotifs') || "[]");
+savedNotifs.forEach(n => createNotifCard(n.title, n.desc, n.icon, n.color, n.date));
+
+        // Load Todos
+        if(localStorage.getItem('savedTodos')) todoArea.innerHTML = localStorage.getItem('savedTodos');
+
+        // Update Date
+        const now = new Date();
+        document.getElementById('current-date').textContent = 
+            `${String(now.getMonth()+1).padStart(2,'0')} / ${String(now.getDate()).padStart(2,'0')} / ${now.getFullYear()}`;
+    };
+
+    /*** 6. UI TOGGLES & TODO SAVING ***/
+    document.getElementById('close-notif-modal').onclick = () => notifModal.style.display = "none";
+    document.getElementById('open-notif-modal').onclick = () => notifModal.style.display = "flex";
+    
+    todoArea.addEventListener('input', () => localStorage.setItem('savedTodos', todoArea.innerHTML));
+
+    document.querySelectorAll('.icon-opt-v2').forEach(icon => {
+        icon.onclick = function() {
+            document.querySelectorAll('.icon-opt-v2').forEach(i => i.classList.remove('selected-box'));
+            this.classList.add('selected-box');
+            selectedIcon = this.getAttribute('data-icon');
+        };
+    });
+
+    document.querySelectorAll('.color-swatch').forEach(swatch => {
+        swatch.onclick = function() {
+            document.querySelectorAll('.color-swatch').forEach(s => s.style.outline = "none");
+            this.style.outline = "3px solid #5da9ff";
+            selectedColor = this.getAttribute('data-color');
+        };
+    });
+
+    /*** 7. TIMER LOGIC ***/
+    let timeLeft = 1500;
+    let timerId = null;
+    const display = document.getElementById('display');
+    const startStopBtn = document.getElementById('start-stop');
+
+    function updateDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        display.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    startStopBtn.onclick = function() {
+        if (timerId === null) {
+            timerId = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerId);
+                    timerId = null;
+                    startStopBtn.textContent = "▷";
+                    alert("Time is up!");
+                }
+            }, 1000);
+            startStopBtn.textContent = "||";
+        } else {
+            clearInterval(timerId);
+            timerId = null;
+            startStopBtn.textContent = "▷";
+        }
+    };
+
+    document.getElementById('plus').onclick = () => { timeLeft += 300; updateDisplay(); };
+    document.getElementById('minus').onclick = () => { if(timeLeft > 300) timeLeft -= 300; else timeLeft = 0; updateDisplay(); };
+</script>
+</body>
+</html>

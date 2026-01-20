@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello, Study - Calendar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..400&family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="HelloStudy.css">
+    
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-attachment: fixed;
+        }
+
+        /* FLAT HEADER: No background, no blur, just the border-bottom */
+        .dashboard-header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 20px 60px; 
+            border-bottom: 1px solid #333; 
+            background: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+
+ .calendar-main-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    /* Change '40px' to '100px' or higher to move everything down */
+    padding: 100px 60px 40px 60px; 
+    height: calc(100vh - 100px);
+    align-items: start;
+}
+
+        /* DATE SECTION: No oval border, just floating text */
+        .date-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .day-number {
+            font-size: 8rem;
+            font-family: 'Playpen Sans', cursive;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .date-text-label {
+            font-family: 'Playwrite US Trad', cursive;
+            font-size: 2.2rem;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        /* CALENDAR BOX */
+        .calendar-white-box {
+            background-color: white;
+            border: 1px solid #333;
+            width: 100%;
+            height: 80vh;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <header class="dashboard-header">
+        <a href="dashboard.html" class="nav-btn" style="text-decoration: none; color: inherit;">← L</a>
+        <h1 class="logo-text">hello, Study</h1>
+       <a href="whiteboard.html" class="nav-btn" style="text-decoration: none; color: inherit;">R →</a>
+    </header>
+
+    <main class="calendar-main-grid">
+        <div class="date-sidebar">
+            <div class="day-number" id="current-day">08</div>
+            <div class="date-text-label">
+                <span id="label-month">august</span> 
+                <span id="label-year">2026</span>
+            </div>
+        </div>
+
+        <div class="calendar-white-box">
+            <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&showNav=1&showPrint=0&showTabs=1&showCalendars=0"></iframe>
+        </div>
+    </main>
+
+    <script>
+        function updateDisplay() {
+            const now = new Date();
+            
+            // Set Day
+            document.getElementById('current-day').textContent = 
+                String(now.getDate()).padStart(2, '0');
+
+            // Set Month & Year
+            const months = ["january", "february", "march", "april", "may", "june", 
+                            "july", "august", "september", "october", "november", "december"];
+            document.getElementById('label-month').textContent = months[now.getMonth()];
+            document.getElementById('label-year').textContent = now.getFullYear();
+        }
+
+        if(localStorage.getItem('savedBg')) {
+            document.body.style.backgroundImage = localStorage.getItem('savedBg');
+            document.body.style.backgroundSize = "cover";
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

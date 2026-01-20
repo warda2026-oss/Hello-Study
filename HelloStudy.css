@@ -1,0 +1,243 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 1. BODY & BACKGROUND LOCK */
+body { 
+    height: 100vh; 
+    overflow: hidden; /* Prevents the entire page from moving */
+    font-family: 'Playpen Sans', cursive; 
+    transition: background 0.5s; 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Keeps image stationary */
+}
+
+/* 2. FIXED HEADER */
+.dashboard-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1000;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0 60px; 
+    border-bottom: 1px solid #333; 
+    background: rgba(255, 255, 255, 0.1); /* Glass effect */
+    backdrop-filter: blur(10px);
+}
+
+.logo-text { font-family: "Playwrite US Trad"; font-size: 2.5rem; }
+
+/* Navigation Buttons */
+.nav-btn-inactive {
+    font-size: 1.2rem;
+    color: #333;
+    opacity: 0.5;
+    cursor: default;
+    user-select: none;
+}
+
+/* 3. THE STATIONARY GRID */
+.main-grid {
+    position: fixed;
+    top: 80px; /* Below the header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 350px 1fr 350px; 
+    gap: 40px;
+    padding: 20px 60px 40px 60px;
+    max-width: 1700px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+/* 4. SCROLLABLE CENTER CONTENT */
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Only this section scrolls if it's too long */
+    scrollbar-width: none; /* Firefox */
+}
+.center-content::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+/* 5. SIDEBARS (Fixed Height) */
+.music-sidebar, .right-sidebar {
+    height: auto;
+    max-height: calc(100vh - 120px);
+}
+
+.music-sidebar, .todo-list, .notifications {
+    border: 1px solid #333; 
+    border-radius: 12px; 
+    overflow: hidden;
+    background-color: #f8f8fa; /* Music box fill */
+}
+
+/* --- THE REST OF YOUR CSS --- */
+
+.card-header {
+    padding: 15px; border-bottom: 1px solid #333; font-weight: bold;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.editable-notes { padding: 20px; min-height: 300px; outline: none; }
+.notif-content { padding: 15px; }
+
+.photo-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    width: 100%; max-width: 500px; margin: 20px auto;
+}
+
+.drop-zone {
+    aspect-ratio: 1/1; background: #ddd; border: 1px solid #333;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    position: relative;
+}
+
+.drop-zone__thumb { width: 100%; height: 100%; object-fit: cover; }
+
+.timer-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.timer-display {
+    font-family: 'Nixie One', cursive;
+    font-size: 12rem; 
+    font-weight: 400;
+    line-height: 0.8;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    font-family: 'Playpen Sans', cursive;
+}
+
+.adjust {
+    font-size: 2.5rem;
+    color: #333;
+    cursor: pointer;
+    user-select: none;
+}
+
+.play-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; 
+}
+
+/* MODALS */
+.modal {
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0;
+    width: 100%; height: 100%; background: rgba(255,255,255,0.9);
+    align-items: center; justify-content: center;
+}
+
+/* Simple Positioning for the Modal X */
+.modal-header {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+
+.notification-modal-v2 {
+    background: white; border: 2px solid #333; border-radius: 40px;
+    padding: 40px; width: 800px; display: flex; flex-direction: column;
+}
+
+.modal-body-flex { display: flex; gap: 40px; margin-top: 20px; }
+.input-underline { height: 1.5px; background: #333; margin: 5px 0 20px; }
+.italic-input, .plain-input { border: none; outline: none; width: 100%; font-family: inherit; }
+.italic-input { font-style: italic; font-size: 1.2rem; }
+
+.icon-grid-v2, .color-grid-v2 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.icon-opt-v2 { font-size: 1.5rem; cursor: pointer; padding: 5px; }
+.selected-box { border: 2px solid #5da9ff; border-radius: 5px; }
+.color-swatch { width: 40px; height: 40px; border-radius: 8px; cursor: pointer; border: 1px solid #ccc; }
+
+.confirm-pill-btn {
+    background: #b4ccd3; border: 1px solid #333; padding: 10px 20px;
+    border-radius: 20px; cursor: pointer; margin-top: 20px;
+}
+
+/* --- ANIMATIONS --- */
+.notif-button-card {
+    padding: 12px; border-radius: 10px; margin-bottom: 10px;
+    border: 1px solid rgba(0,0,0,0.1); cursor: pointer;
+}
+
+.fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.4s ease;
+}
+
+.delete-photo-btn {
+    position: absolute; top: 5px; right: 5px;
+    background: rgba(0,0,0,0.6); color: white; border: none;
+    border-radius: 50%; width: 22px; height: 22px;
+    cursor: pointer; display: none; z-index: 5;
+}
+.drop-zone:hover .delete-photo-btn { display: block; }
+
+.photo-fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: 0.3s ease;
+}
+
+.placeholder-icon {
+    font-size: 2rem;
+    color: #333;
+    pointer-events: none;
+}
+
+.date-arrow-btn {
+    background: #eee;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-family: 'Playpen Sans', cursive;
+    font-weight: 800;
+    cursor: pointer;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

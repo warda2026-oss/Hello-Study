@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello, Study - Whiteboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..400&family=Playwrite+US+Trad:wght@100..400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="HelloStudy.css">
+    
+    <style>
+        body {
+            margin: 60px;
+            overflow: hidden;
+            background-attachment: fixed;
+        }
+
+        /* REMOVED BLURRED GLASS EFFECT */
+        .dashboard-header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 20px 60px; 
+            border-bottom: 1px solid #333; 
+            background: transparent; /* Forces transparency */
+            backdrop-filter: none;    /* Removes blur */
+        }
+
+        .whiteboard-grid {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 30px;
+            padding: 40px 60px;
+            height: calc(100vh - 140px);
+            align-items: start;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* PHOTO GRID */
+        .photo-grid-v3 {
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 12px;
+            width: 100%;
+        }
+
+        .drop-zone {
+            aspect-ratio: 1/1; 
+            background: rgba(221, 221, 221, 0.4); 
+            border: 1px solid #333;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .drop-zone__thumb {
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+
+        /* NOTES AREA */
+        .notes-area {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid #333;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            font-family: 'Playwrite US Trad', cursive;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .notes-content {
+            padding: 20px;
+            min-height: 280px;
+            outline: none;
+            font-family: 'Playpen Sans', cursive;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+        }
+
+        /* WHITEBOARD CANVAS */
+        .whiteboard-container {
+            background: white;
+            border: 1px solid #333;
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .whiteboard-header {
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            background: #f0f0f0;
+            font-family: 'Playwrite US Trad', cursive;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #paintCanvas {
+            flex-grow: 1;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .clear-btn {
+            background: #fff;
+            border: 1px solid #333;
+            padding: 3px 10px;
+            font-family: 'Playpen Sans';
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="dashboard-body">
+
+    <header class="dashboard-header">
+        <a href="calendar.html" class="nav-btn" style="text-decoration: none; color: inherit;">← L</a>
+        <h1 class="logo-text">hello, Study</h1>
+       <a href="dashboard.html" class="nav-btn" style="text-decoration: none; color: inherit;">R →</a>
+    </header>
+
+
+    <main class="whiteboard-grid">
+        <div class="left-column">
+            <div class="photo-grid-v3">
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+                <div class="drop-zone"><span class="placeholder-icon">+</span><input type="file" class="drop-zone__input" hidden></div>
+            </div>
+
+            <div class="notes-area">
+                <div class="notes-header">Notes</div>
+                <div class="notes-content" contenteditable="true" id="wb-notes-input" placeholder="Start typing..."></div>
+            </div>
+        </div>
+
+        <div class="whiteboard-container">
+            <div class="whiteboard-header">
+                <span>Whiteboard</span>
+                <button class="clear-btn" onclick="clearCanvas()">Clear</button>
+            </div>
+            <canvas id="paintCanvas"></canvas>
+        </div>
+    </main>
+
+    <script>
+
+        // 2. BG PERSISTENCE
+        if(localStorage.getItem('savedBg')) {
+            document.body.style.backgroundImage = localStorage.getItem('savedBg');
+            document.body.style.backgroundSize = "cover";
+        }
+
+        // 3. PHOTO DROP LOGIC
+        document.querySelectorAll(".drop-zone").forEach((zone) => {
+            const input = zone.querySelector(".drop-zone__input");
+            zone.addEventListener("click", () => input.click());
+            input.addEventListener("change", () => {
+                if (input.files.length) updateThumbnail(zone, input.files[0]);
+            });
+            zone.addEventListener("dragover", (e) => { e.preventDefault(); zone.style.background = "rgba(0,0,0,0.1)"; });
+            zone.addEventListener("dragleave", () => { zone.style.background = "rgba(221, 221, 221, 0.4)"; });
+            zone.addEventListener("drop", (e) => {
+                e.preventDefault();
+                if (e.dataTransfer.files.length) {
+                    input.files = e.dataTransfer.files;
+                    updateThumbnail(zone, e.dataTransfer.files[0]);
+                }
+            });
+        });
+
+        function updateThumbnail(zone, file) {
+            let thumb = zone.querySelector(".drop-zone__thumb");
+            if (zone.querySelector(".placeholder-icon")) zone.querySelector(".placeholder-icon").remove();
+            if (!thumb) {
+                thumb = document.createElement("div");
+                thumb.classList.add("drop-zone__thumb");
+                zone.appendChild(thumb);
+            }
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => { thumb.style.backgroundImage = `url('${reader.result}')`; };
+        }
+
+        // 4. AUTO-SAVE NOTES
+        const notes = document.getElementById('wb-notes-input');
+        notes.innerHTML = localStorage.getItem('wb_notes') || "";
+        notes.addEventListener('input', () => {
+            localStorage.setItem('wb_notes', notes.innerHTML);
+        });
+
+        // 5. WHITEBOARD CANVAS LOGIC
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        function resize() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        window.addEventListener('load', resize);
+        window.addEventListener('resize', resize);
+
+        function start(e) { drawing = true; draw(e); }
+        function end() { drawing = false; ctx.beginPath(); }
+        function draw(e) {
+            if (!drawing) return;
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#333';
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        }
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+        canvas.addEventListener('mousedown', start);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', end);
+    </script>
+</body>
+</html>
